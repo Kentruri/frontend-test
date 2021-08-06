@@ -1,16 +1,23 @@
 import { ActionType } from "../action-types/index"
 import { Action } from "../actions"
 
-const initialState = 0;
 
-const reducer = (state: number = initialState, action: Action): number => {
+const initialState = [
+    {}
+]
+
+
+
+const reducer = (state: any = initialState, action: Action): any => {
     switch (action.type){
         case ActionType.DEPOSIT:
-            return state + action.payload;
+            return state.push(action.payload);
         case ActionType.WITHDRAW:
-            return state - action.payload;
+            return state.push(action.payload);
         case ActionType.BANKRUPT:
-            return 0;
+            return state = [{}];
+        case ActionType.HISTORY:
+            return action.payload;
         default:
             return state
     }

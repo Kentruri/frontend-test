@@ -1,17 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from './state';
 import { RootState } from './state/reducers';
+import { History,bankrupt,depositMoney,withdrawMoney } from './state/action-creators';
+import axios from "axios"
 
 
-function App() {
+const App = () => {
 
   const state = useSelector((state: RootState) => state.bank)
+
   const dispatch = useDispatch();
 
-  const { depositMoney, withdrawMoney, bankrupt } = bindActionCreators(actionCreators, dispatch)
+  //template of an transaction object
+  interface transaction {
+    type: string,
+    amount: number
+  }
+
+ 
+
+  //if the state is update, the list will be update cuz that depend of the state
+  useEffect(() => {
+
+    dispatch(History)
+  }, [state.bank]);
+
+
+  //List
+
+  const list = state.map((val: any) => { return <li> {val.type}: {val.amount}</li>});
+
+  //All money
+
+  const allMoney = state.reduce((acumulador: number, transaction: transaction) => {
+    if (transaction.type === "deposit") {
+      return acumulador + transaction.amount
+    }
+    else { return acumulador - transaction.amount }
+
+  }, 0)
+
+  console.log(allMoney)
+
+
 
   return (
     <div className="app">
@@ -20,21 +52,20 @@ function App() {
 
         <h1 className="title">Welcome to your   <span id="title">finances</span></h1>
 
-        <h2>Current money: {state} $</h2>
-        <button  className="btn" onClick={() => depositMoney(1000)}>Deposit</button>
-        <button  className="btn"  onClick={() => withdrawMoney(1000)}>Withdraw</button>
+        <h2>Current money: { state.length > 1 ? allMoney : 0} $</h2>
+        <button className="btn" onClick={() => dispatch(depositMoney(1000))}>Deposit</button>
+        <button className="btn" onClick={() => dispatch(withdrawMoney(1000))}>Withdraw</button>
 
         <div className="historyList">
 
-          <ul>
-            <li>Deposit: 1000</li>
-            <li>Withdraw: 1000</li>
-            
-          </ul>
+
+          { state.length > 1 ? <ul> { list } </ul> : 0}
+
+
 
         </div>
 
-        <button className="btn" style={{background:"#5658dd"}} onClick={() => bankrupt()}>Bankrupt</button>
+        <button className="btn" onClick={() => bankrupt()}>Bankrupt</button>
 
 
       </div>

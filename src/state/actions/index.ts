@@ -2,16 +2,23 @@ import { ActionType } from "../action-types/index"
 
 interface DepositAction {
     type: ActionType.DEPOSIT,
-    payload: number
+    payload: any
 }
 
 interface WithdrawAction {
     type: ActionType.WITHDRAW,
-    payload: number
+    payload: any
 }
+
 
 interface BankruptAction {
     type: ActionType.BANKRUPT
 }
 
-export type Action = DepositAction | WithdrawAction | BankruptAction;
+
+interface HistoryAction {
+    type: ActionType.HISTORY,
+    payload: any
+}
+
+export type Action = DepositAction | WithdrawAction | BankruptAction | HistoryAction ;
