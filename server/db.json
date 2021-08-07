@@ -2,15 +2,23 @@
   "history": [
     {
       "type": "withdraw",
-      "amount": 1000
+      "amount": 1000,
+      "id": 1
     },
     {
       "type": "deposit",
-      "amount": 1000
+      "amount": 1000,
+      "id": 2
     },
     {
       "type": "deposit",
-      "amount": 1000
+      "amount": 1000,
+      "id": 3
+    },
+    {
+      "type": "deposit",
+      "amount": 1000,
+      "id": 4
     }
   ]
 }
