@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './state/reducers';
@@ -8,14 +8,15 @@ import { loadHistory, bankrupt, depositMoney, withdrawMoney } from './state/acti
 
 const App = () => {
 
-  const { history } = useSelector((state: RootState) => state.bank)
-
+  //redux
   const dispatch = useDispatch();
+  const { history } = useSelector((state: RootState) => state.bank)
 
   //template of an transaction object
   interface transaction {
     type: string,
-    amount: number
+    amount: number,
+    id: number
   }
 
 
@@ -24,13 +25,15 @@ const App = () => {
     dispatch(loadHistory())
   }, []);
 
-  const list = history.map((val: any) => { return <li key={val.id}> {val.type}: {val.amount}</li> })
 
-  const allMoney = history.reduce((acumulador: number, transaction: transaction) => {
+  //process constants
+  const list = history.map((val: transaction) => { return <li key={val.id}> {val.type}: {val.amount}</li> })
+
+  const allMoney = history.reduce((acum: number, transaction: transaction) => {
     if (transaction.type === "deposit") {
-      return acumulador + transaction.amount
+      return acum + transaction.amount
     }
-    else { return acumulador - transaction.amount }
+    else { return acum - transaction.amount }
 
   }, 0)
 
@@ -57,12 +60,13 @@ const App = () => {
 
         </div>
 
-        <button className="btn" onClick={() => bankrupt(dispatch, allMoney)}>Bankrupt</button>
+        <button className="btn" onClick={() => dispatch(bankrupt(allMoney))}>Bankrupt</button>
 
 
       </div>
     </div >
   );
 }
+
 
 export default App;

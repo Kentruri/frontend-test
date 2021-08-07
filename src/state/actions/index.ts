@@ -1,13 +1,14 @@
 import { ActionType } from "../action-types/index"
 
+
 interface DepositAction {
     type: ActionType.DEPOSIT,
-    payload: any
+    payload: object
 }
 
 interface WithdrawAction {
     type: ActionType.WITHDRAW,
-    payload: any
+    payload: object
 }
 
 
@@ -18,7 +19,7 @@ interface BankruptAction {
 
 interface HistoryAction {
     type: ActionType.HISTORY,
-    payload: any
+    payload: object
 }
 
 export type Action = DepositAction | WithdrawAction | BankruptAction | HistoryAction ;
